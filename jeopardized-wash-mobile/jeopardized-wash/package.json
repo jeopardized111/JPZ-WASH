@@ -1,0 +1,12 @@
+{
+  "name": "jeopardized-wash",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Weather-aware car wash planner based on the supplied reference design.",
+  "main": "server.js",
+  "scripts": { "start": "node server.js", "dev": "node server.js" },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

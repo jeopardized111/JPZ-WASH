@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b78f0">
+  <title>Jeopardized Wash — прогноз для чистого автомобиля</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="weatherBgA" class="weather-bg-layer active"></div>
+  <div id="weatherBgB" class="weather-bg-layer"></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Jeopardized Wash">
+        <span class="brand-drop">💧</span><span>Jeopardized Wash</span>
+      </a>
+      <div class="top-actions">
+        <button id="themeToggle" class="round-btn" title="Сменить тему">☀️</button>
+        <div class="city-wrap">
+          <button id="cityButton" class="city-button"><span>📍</span><span id="cityLabel">Санкт-Петербург</span><span>⌄</span></button>
+          <div id="cityMenu" class="city-menu">
+            <div class="city-search"><input id="citySearch" placeholder="Поиск города..."></div>
+            <div id="cityList"></div>
+          </div>
+        </div>
+        <button id="menuButton" class="round-btn burger" title="Меню"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="hero-spacer"></section>
+
+      <section class="dashboard">
+        <article class="wash-card glass">
+          <span class="eyebrow">ПОГОДА</span>
+          <h1>Проверь погоду —<br><b>выбери, когда мыть</b></h1>
+          <p>Умный прогноз для чистого авто. Мы подскажем, когда погода будет лучше всего.</p>
+          <form id="searchForm" class="city-search-main">
+            <span>⌕</span><input id="mainCityInput" placeholder="Введите город..." autocomplete="off">
+            <button>➤ &nbsp; Найти</button>
+          </form>
+        </article>
+
+        <article class="current-card glass">
+          <div class="current-top"><div><div class="location">📍 <span id="currentCity">Санкт-Петербург</span></div><small>Сейчас</small></div></div>
+          <div class="current-body">
+            <div class="weather-icon" id="currentIcon">☀️</div>
+            <div class="temp" id="currentTemp">—°</div>
+            <div class="metrics">
+              <div><span>♧ Влажность</span><b id="humidity">—%</b></div>
+              <div><span>≋ Ветер</span><b id="wind">— м/с</b></div>
+              <div><span>◷ Давление</span><b id="pressure">— мм</b></div>
+              <div><span>◷ Осадки</span><b id="precip">— мм</b></div>
+            </div>
+          </div>
+          <strong id="conditionText">Загрузка...</strong>
+        </article>
+      </section>
+
+      <section class="forecast glass">
+        <div id="forecastDays"></div>
+      </section>
+
+      <section class="recommendation glass">
+        <div class="bulb">💡</div>
+        <div class="rec-copy"><small>Рекомендация</small><h3 id="recommendationTitle">Ищем лучшее время для мойки...</h3><p id="recommendationText">Получаем прогноз на ближайшие дни.</p></div>
+        <button id="detailsBtn" class="outline-btn">▣ &nbsp; Подробнее</button>
+      </section>
+    </main>
+  </div>
+
+  <!-- Registration -->
+  <div id="registrationModal" class="modal hidden">
+    <div class="modal-card">
+      <button class="close" data-close="registrationModal">×</button>
+      <div class="modal-logo">💧</div>
+      <h2>Сохраним прогноз для тебя</h2>
+      <p>Оставь почту или номер телефона — позже сможем сообщить, когда впереди хорошая погода для мойки.</p>
+      <div class="contact-tabs" role="tablist">
+        <button type="button" id="emailTab" class="contact-tab active">Почта</button>
+        <button type="button" id="phoneTab" class="contact-tab">Телефон</button>
+      </div>
+      <form id="registrationForm">
+        <div id="emailField">
+          <input id="contactInput" required type="email" placeholder="example@mail.ru" autocomplete="email">
+        </div>
+        <div id="phoneField" class="phone-field hidden">
+          <select id="countrySelect" aria-label="Страна и код телефона">
+            <option value="+7" data-mask="9">🇷🇺 Россия — +7</option>
+            <option value="+7" data-mask="9">🇰🇿 Казахстан — +7</option>
+            <option value="+375" data-mask="375">🇧🇾 Беларусь — +375</option>
+            <option value="+374" data-mask="374">🇦🇲 Армения — +374</option>
+            <option value="+995" data-mask="995">🇬🇪 Грузия — +995</option>
+            <option value="+998" data-mask="998">🇺🇿 Узбекистан — +998</option>
+            <option value="+380" data-mask="380">🇺🇦 Украина — +380</option>
+            <option value="+49" data-mask="49">🇩🇪 Германия — +49</option>
+            <option value="+44" data-mask="44">🇬🇧 Великобритания — +44</option>
+            <option value="+1" data-mask="1">🇺🇸 США — +1</option>
+          </select>
+          <input id="phoneInput" inputmode="tel" placeholder="(999) 123-45-67" autocomplete="tel">
+        </div>
+        <button class="primary-btn" type="submit">Продолжить</button>
+      </form>
+      <small>Контакт используется только для уведомлений. В демо-версии отправка сообщений не подключена.</small>
+    </div>
+  </div>
+
+  <!-- Side menu -->
+  <aside id="sideMenu" class="side-menu">
+    <div class="side-head"><h2>Меню</h2><button id="menuClose">×</button></div>
+    <div class="profile-mini">
+      <div id="profileAvatar" class="avatar profile-avatar-default" aria-label="Аватар профиля"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 20c.8-4 3.3-6 7.5-6s6.7 2 7.5 6"></path></svg></div>
+      <div><b id="profileName">Новый водитель</b><span>Профиль</span></div>
+    </div>
+    <div class="menu-section-title">Аккаунт</div>
+    <button class="menu-item" data-panel="profilePanel"><span class="menu-icon">👤</span><span>Профиль</span><span class="menu-arrow">›</span></button>
+    <button class="menu-item" data-panel="editPanel"><span class="menu-icon">✎</span><span>Редактировать профиль</span><span class="menu-arrow">›</span></button>
+    <div class="menu-divider"></div>
+    <div class="menu-section-title">Сообщество</div>
+    <button class="menu-item" data-panel="leaderPanel"><span class="menu-icon">🏆</span><span>Таблица лидеров</span><span class="menu-arrow">›</span></button>
+    <button class="menu-item" data-panel="surveyPanel"><span class="menu-icon">🚿</span><span>Мыл ли сегодня машину?</span><span class="menu-arrow">›</span></button>
+    <button class="menu-item" data-panel="washGuidePanel"><span class="menu-icon">📖</span><span>Обучение мойки</span><span class="menu-arrow">›</span></button>
+    <div class="menu-divider"></div>
+    <div class="side-note"><span>⏱</span> Опрос можно проходить не чаще одного раза в 12 часов.</div>
+  </aside>
+  <div id="overlay" class="overlay hidden"></div>
+
+  <div id="panelModal" class="modal hidden">
+    <div class="modal-card panel-card">
+      <button class="close" id="panelClose">×</button>
+      <div id="panelContent"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
